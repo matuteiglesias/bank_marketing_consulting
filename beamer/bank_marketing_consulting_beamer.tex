@@ -59,7 +59,7 @@ Replace broad customer selection with a \textbf{pre-campaign logistic ranking}, 
 \end{column}
 \begin{column}{0.31\textwidth}
 \centering
-\metric{+311}{incremental subscriptions}
+\metric{+310.88}{incremental subscriptions}
 \end{column}
 \end{columns}
 
@@ -104,107 +104,87 @@ customer + prior history & campaign/contact activity & duration + outcome \\
 \end{frame}
 
 % Slide 3
-\begin{frame}{Prior response history separates high- and low-conversion groups, but conditions change over time}
+\begin{frame}{The data supports ranking, but quality limits and temporal drift constrain confidence}
 \begin{columns}[T,totalwidth=\textwidth]
-\begin{column}{0.52\textwidth}
+\begin{column}{0.57\textwidth}
 \begin{itemize}\tightitem
-  \item Overall dataset conversion: \textbf{11.27\%}.
-  \item Previous campaign success: \textbf{65.11\%} conversion.
-  \item Previous contact within 0--7 days: \textbf{65.76\%} conversion.
-  \item Ordered-data quintiles ranged from \textbf{3.14\%} to \textbf{30.84\%} conversion.
-  \item \texttt{duration} bins ranged from near-zero to \textbf{48.6\%}, demonstrating severe leakage.
+  \item \textbf{41,188 contact records}; 12 exact duplicates retained for contact-opportunity analysis.
+  \item No stable customer ID: records are not necessarily unique customers.
+  \item Prior success converted at \textbf{65.11\%}; prior contact within 0--7 days at \textbf{65.76\%}.
+  \item Low-Euribor quartile converted at \textbf{25.38\%} versus \textbf{5.08\%} in the third quartile.
+  \item More current-campaign contacts coincide with lower conversion, \textbf{descriptively, not causally}.
+  \item \texttt{duration} shows severe post-contact leakage and is not actionable for selection.
 \end{itemize}
 \end{column}
-\begin{column}{0.45\textwidth}
+\begin{column}{0.40\textwidth}
+\begin{block}{Regime shift is material}
 \centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    width=\linewidth,
-    height=4.5cm,
-    ymin=0,ymax=70,
-    ylabel={Conversion (\%)},
-    symbolic x coords={Overall,Prev success,Recent prior},
-    xtick=data,
-    x tick label style={rotate=20,anchor=east,font=\scriptsize},
-    nodes near coords,
-    nodes near coords style={font=\scriptsize},
-    bar width=16pt,
-    enlarge x limits=0.25,
-]
-\addplot coordinates {(Overall,11.27) (Prev success,65.11) (Recent prior,65.76)};
-\end{axis}
-\end{tikzpicture}
+\metric{6.37\%}{train conversion}\quad
+\metric{30.83\%}{test conversion}
+
+\vspace{0.7em}
+\small Source-order quintiles rose from \textbf{3.14\%} to \textbf{30.84\%}.
+\end{block}
+\vspace{0.4em}
+\small Literal \texttt{unknown} values remain categories; \texttt{pdays=999} means no prior contact, not missingness.
 \end{column}
 \end{columns}
 
-\vspace{0.6em}
-\begin{block}{Interpretation}
-The data contains exploitable heterogeneity, but substantial temporal drift requires forward-style validation.
+\vspace{0.5em}
+\begin{block}{Interpretation: ordered holdout is deliberately conservative}
+Source order is an \textbf{approximate temporal validation}, not exact chronology. The shift supports forward-style testing and makes prospective validation mandatory.
 \end{block}
 \end{frame}
 
 % Slide 4
-\begin{frame}{The simpler model produces the strongest operational ranking}
+\begin{frame}{Logistic wins at operational cuts despite boosting's higher ROC-AUC}
 \vspace{-0.3em}
 \begin{table}
-\small
-\begin{tabular}{lccccc}
+\scriptsize
+\begin{tabular}{lcccccc}
 \toprule
-\textbf{Model} & \textbf{ROC-AUC} & \textbf{PR-AUC} & \textbf{Top-10\% lift} & \textbf{Top-20\% lift} & \textbf{Selected} \\
+\textbf{Model} & \textbf{ROC-AUC} & \textbf{PR-AUC} & \textbf{Brier} & \textbf{10\% lift} & \textbf{20\% lift} & \textbf{30\% lift} \\
 \midrule
-Logistic & 0.559 & 0.418 & 1.98$\times$ & 1.61$\times$ & Yes \\
-Gradient boosting & 0.588 & 0.394 & 1.45$\times$ & 1.57$\times$ & No \\
+Logistic (selected) & 0.559286 & 0.418420 & 0.239939 & 1.9759$\times$ & 1.6118$\times$ & 1.3028$\times$ \\
+Gradient boosting & 0.588409 & 0.393809 & 0.251783 & 1.4524$\times$ & 1.5685$\times$ & 1.3514$\times$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\begin{columns}[T,totalwidth=\textwidth]
-\begin{column}{0.52\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    width=\linewidth,
-    height=4.5cm,
-    ymin=0,ymax=70,
-    ylabel={Conversion (\%)},
-    symbolic x coords={Random,Top 30\%,Top 20\%,Top 10\%},
-    xtick=data,
-    x tick label style={font=\scriptsize},
-    nodes near coords,
-    nodes near coords style={font=\scriptsize},
-    bar width=16pt,
-]
-\addplot coordinates {(Random,30.83) (Top 30\%,40.17) (Top 20\%,49.70) (Top 10\%,60.92)};
-\end{axis}
-\end{tikzpicture}
-\end{column}
-\begin{column}{0.45\textwidth}
-\begin{block}{Main takeaway}
-Gradient boosting modestly improved ROC-AUC, but underperformed logistic regression on the most relevant ranking metrics.
+\vspace{0.25em}
+\begin{table}
+\scriptsize
+\begin{tabular}{rrrrrr}
+\toprule
+\textbf{Capacity} & \textbf{Calls} & \textbf{Conversions} & \textbf{Conversion} & \textbf{Recall} & \textbf{Incremental} \\
+\midrule
+10\% & 824 & 502 & 60.92\% & 19.76\% & 247.94 \\
+20\% & 1,648 & 819 & 49.70\% & 32.24\% & 310.88 \\
+30\% & 2,472 & 993 & 40.17\% & 39.09\% & 230.82 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.25em}
+\begin{block}{Why logistic}
+Boosting improves ROC-AUC, but logistic has better PR-AUC, Brier score, and top-10\% performance. All lifts use the \textbf{30.83\% contemporaneous test baseline}; overall discrimination is modest.
 \end{block}
-\vspace{0.4em}
-\small
-At the top 20\% cutoff, logistic ranking yielded \textbf{819 conversions} across \textbf{1,648 calls}, or about \textbf{311 more} than random selection in the same test period.
-\end{column}
-\end{columns}
 \end{frame}
 
 % Slide 5
-\begin{frame}{Deploy through a controlled pilot, not immediate full-scale automation}
+\begin{frame}{A controlled top-20\% pilot should test value, safety, and transportability}
 \begin{columns}[T,totalwidth=\textwidth]
 \begin{column}{0.48\textwidth}
 \begin{block}{Pilot design}
 \begin{enumerate}\tightitem
-  \item Score eligible customers before campaign launch.
+  \item Apply consent, suppression, legal, and deduplication rules; then score before campaign launch.
   \item Randomize customers near or across the cutoff:
     \begin{itemize}\tightitem
       \item scored targeting group;
       \item business-as-usual or random control.
     \end{itemize}
-  \item Measure conversions per call, deposits and margin, agent time, and complaints or opt-outs.
-  \item Retrain and recalibrate as campaign conditions change.
+  \item Measure conversions per call, deposits and margin, call cost and agent time, and complaints or opt-outs.
+  \item Predefine sample size, stopping rules, guardrails, and rollout criteria; monitor score and calibration drift.
 \end{enumerate}
 \end{block}
 \end{column}
@@ -217,11 +197,13 @@ At the top 20\% cutoff, logistic ranking yielded \textbf{819 conversions} across
   \item Train conversion was 6.37\%; test conversion was 30.83\%.
   \item Historical campaign selection may bias labels.
   \item No deposit amount, margin, or call-cost fields.
-  \item Probabilities are not calibrated enough for direct economic optimization.
+  \item Raw scores are not economic values; capacity cutoffs may drift.
 \end{itemize}
 \end{block}
 \end{column}
 \end{columns}
+\vspace{0.5em}
+\centering\small Human owner approves cutoff, eligibility, risk controls, experiment design, and any rollout.
 \end{frame}
 
 \end{document}
