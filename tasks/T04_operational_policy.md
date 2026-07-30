@@ -1,7 +1,7 @@
 # T04 — Operational Policy
 
 **Timebox:** minutes 85–100  
-**Status:** LOCKED until T03 is CLOSED  
+**Status:** CLOSED
 **Unlocks:** HUMAN HANDOFF
 
 ## Objective

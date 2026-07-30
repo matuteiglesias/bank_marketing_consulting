@@ -6,7 +6,7 @@
 
 ## Status
 
-`BLOCKED`
+`CLOSED`
 
 ## Inputs consumed
 
@@ -14,68 +14,96 @@
 - `docs/methodological_guardrails.md`
 - `artifacts/eda/eda_findings.md`
 - `artifacts/quality/feature_availability_matrix.csv`
+- `data/raw/bank-additional-full.csv`
 
 ## Work completed
 
-- Verified the required modeling runtime before writing model code.
-- Checked the active Python 3.14 environment, system Python, and the available MCP virtual environment for `scikit-learn`, NumPy, SciPy, and pandas; none were installed.
-- Attempted installation from both Python package and Ubuntu package channels.
-- Added the reproducible implementation in `src/modeling.py` and focused tests in
-  `tests/test_modeling.py`; the implementation remains unexecuted rather than
-  treating unverified output as evidence.
-- Kept T03 blocked and produced no model artifacts because the required models
-  could not be executed in this container.
+- Executed the two predeclared sklearn pipelines with deterministic seed 1729.
+- Used the first 32,950 source-ordered rows for training and held out the final
+  8,238 rows untouched for comparison. This preserves source order as an
+  approximate chronology; the data does not contain exact dates, years, or a
+  stable customer identifier.
+- Fitted all preprocessing on training data only and saved row-level test
+  predictions, the comparison table, and the production feature manifest.
+- Reproduced the gains table from the selected model's saved test predictions.
 
-## Artifacts produced
+## Artifacts produced and validated
 
-- `src/modeling.py` (implementation, not executed in the blocked runtime)
-- `tests/test_modeling.py` (dependency-gated modeling checks)
-- `requirements.txt` (declared compatible runtime and test dependencies)
-- `memos/T03_modeling_closure.md` (blocked-stage record)
+- `artifacts/modeling/feature_manifest.json`
+- `artifacts/modeling/model_comparison.csv`
+- `artifacts/modeling/test_predictions.csv`
+- `artifacts/policy/gains_table.csv`
+- `src/modeling.py`
+- `tests/test_modeling.py`
 
-The mandatory modeling artifacts were not produced because neither required model could be executed in the available environment.
+All model metrics use the same 8,238-row untouched ordered holdout. The saved
+predictions contain exactly those 8,238 unique source-row identifiers and both
+candidate scores.
 
-## Key findings
+## Holdout composition
 
-1. `python -m pip install scikit-learn pandas -q` exhausted retries because the configured package proxy returned HTTP 403 and reported no obtainable distribution.
-2. `apt-get install -y python3-sklearn python3-pandas` also failed to fetch packages because the configured Ubuntu proxy returned HTTP 403.
-3. The active interpreter, `/usr/bin/python3`, and `/opt/codex/mcp/.venv/bin/python` contain none of NumPy, SciPy, scikit-learn, or pandas; no cached wheels were found.
-4. After declaring all dependencies, `PYENV_VERSION=3.12.13 python -m pip install -r requirements.txt` likewise exhausted HTTP 403 proxy retries, beginning with NumPy.
+| Partition | Rows | Positives | Conversion |
+|---|---:|---:|---:|
+| Train | 32,950 | 2,100 | 6.37% |
+| Test | 8,238 | 2,540 | 30.83% |
+
+The large prevalence shift is material. Capacity gains are therefore compared
+with contemporaneous random selection at the **30.83% test prevalence**, not
+with the 11.27% full-sample historical conversion rate.
+
+## Model results on the common test set
+
+| Model | ROC-AUC | PR-AUC | Brier | Top-10% conversion | Top-10% lift |
+|---|---:|---:|---:|---:|---:|
+| Logistic regression | 0.559286 | 0.418420 | 0.239939 | 60.92% | 1.9759x |
+| Histogram gradient boosting | 0.588409 | 0.393809 | 0.251783 | 44.78% | 1.4524x |
+
+## Selected candidate and rationale
+
+`logistic_regression` is selected for operational performance, not simplicity
+alone. Histogram gradient boosting has the higher ROC-AUC (0.588409 versus
+0.559286), but logistic regression has the higher PR-AUC, lower Brier score,
+and substantially stronger top-10% conversion and lift. The flexible model also
+fails the predeclared rule requiring at least 5% relative lift improvement at
+all three capacity cuts with no PR-AUC loss.
 
 ## Integrity checks
 
-- [ ] Required artifacts exist — blocked before model execution
-- [ ] Metrics reconcile — no metrics were generated
-- [x] No prohibited feature entered a production model — no model was built
-- [x] Claims are supported by saved evidence — exact checks and failures are recorded below
-- [x] Limitations are recorded
+- [x] Both required models executed.
+- [x] Required artifacts exist.
+- [x] All metrics use the same untouched 8,238-row test set.
+- [x] Saved predictions contain only test rows and reconcile to the gains table.
+- [x] `duration`, `campaign`, `contact`, `month`, and `day_of_week` are absent
+  from both production candidates.
+- [x] Tests cover leakage rules, ordered split integrity, preprocessing, metric
+  calculations, manifest coverage, and end-to-end output structure.
 
-## Deviations from plan
+## Limitations
 
-- Both required model artifacts remain absent because the implementation could
-  not be executed. No metrics, predictions, or closure claims were fabricated.
+- Source order is only approximate chronology; exact temporal validation is not
+  possible from the public fields.
+- No stable customer identifier exists, so customer-level independence across
+  the split cannot be guaranteed.
+- The prevalence shift and modest discrimination indicate temporal drift and
+  limit transportability; monitoring and prospective validation are required.
+- Ranking predicts subscription among historically contacted opportunities; it
+  does not estimate causal uplift from calling.
+- Raw predicted probabilities must not be interpreted as calibrated economic
+  values, especially without deposit margin and contact-cost inputs.
 
-## Open issues
+## Deviations and execution context
 
-- Provide an environment containing a compatible scikit-learn installation (and its NumPy/SciPy dependencies), or make a compatible wheel source reachable.
-- T04 remains locked because no out-of-sample predictions exist.
+The original Codex container could not install NumPy, pandas, SciPy, or
+scikit-learn because both package proxies returned HTTP 403, so T03 was
+correctly recorded as blocked at that time and no results were fabricated.
+Analytical execution was subsequently completed and validated in a working
+local environment; that verified execution is the governing current state.
 
 ## Decision
 
-- `NEXT_STAGE_BLOCKED`
+- `T04_UNLOCKED`
 
 ## Exact next action
 
-- Run `PYENV_VERSION=3.12.13 python -m pip install -r requirements.txt`, then
-  `PYENV_VERSION=3.12.13 python -m src.modeling` and
-  `PYENV_VERSION=3.12.13 python -m pytest -q`. Review the generated comparison,
-  name the selected candidate in this memo, and close T03 only if every exit
-  criterion passes; do not start T04 before then.
-
-## Reproduction evidence
-
-- `python -c "import sklearn, pandas, numpy"` failed with `ModuleNotFoundError: No module named 'sklearn'`.
-- `python -m pip install scikit-learn pandas -q` failed after five HTTP 403 proxy retries.
-- `PYENV_VERSION=3.12.13 python -m pip install -r requirements.txt` failed after five HTTP 403 proxy retries.
-- `apt-get install -y python3-sklearn python3-pandas` failed with HTTP 403 responses for required Ubuntu archives.
-- Direct import checks under `/usr/bin/python3` and `/opt/codex/mcp/.venv/bin/python` found no NumPy, SciPy, scikit-learn, or pandas installation.
+- Translate the saved logistic-regression test scores into a capacity-dependent
+  policy and close T04.
