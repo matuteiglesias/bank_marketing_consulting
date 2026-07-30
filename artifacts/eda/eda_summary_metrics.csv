@@ -1,0 +1,27 @@
+hypothesis,analysis,segment,n,positives,conversion_rate,baseline_rate,lift
+H1,global conversion,all records,41188,4640,0.11265417,0.11265417,1.000000
+H1/H2,conversion by prior campaign outcome,nonexistent,35563,3141,0.08832213,0.11265417,0.784011
+H1/H2,conversion by prior campaign outcome,failure,4252,605,0.14228598,0.11265417,1.263033
+H1/H2,conversion by prior campaign outcome,success,1373,894,0.65112891,0.11265417,5.779892
+H2,conversion by prior-contact recency,never previously contacted (pdays=999),39673,3673,0.09258186,0.11265417,0.821824
+H2,conversion by prior-contact recency,previously contacted: 0-7 days,1177,774,0.65760408,0.11265417,5.837370
+H2,conversion by prior-contact recency,previously contacted: 8-30 days,338,193,0.57100592,0.11265417,5.068662
+H3,conversion by Euribor quartile,Q2 <= 4.857,11512,950,0.08252259,0.11265417,0.732530
+H3,conversion by Euribor quartile,Q3 <= 4.961,9342,475,0.05084564,0.11265417,0.451343
+H3,conversion by Euribor quartile,Q4 > 4.961,9791,539,0.05505056,0.11265417,0.488669
+H3,conversion by Euribor quartile,Q1 <= 1.344,10543,2676,0.25381770,0.11265417,2.253070
+H4,conversion by approximate source-order period,source-order quintile 1,8238,259,0.03143967,0.11265417,0.279081
+H4,conversion by approximate source-order period,source-order quintile 2,8238,447,0.05426074,0.11265417,0.481658
+H4,conversion by approximate source-order period,source-order quintile 3,8237,482,0.05851645,0.11265417,0.519434
+H4,conversion by approximate source-order period,source-order quintile 4,8238,912,0.11070648,0.11265417,0.982711
+H4,conversion by approximate source-order period,source-order quintile 5,8237,2540,0.30836470,0.11265417,2.737268
+H5,conversion by current-campaign contact count (descriptive only),1,17642,2300,0.13037071,0.11265417,1.157265
+H5,conversion by current-campaign contact count (descriptive only),2,10570,1211,0.11456954,0.11265417,1.017002
+H5,conversion by current-campaign contact count (descriptive only),3,5341,574,0.10747051,0.11265417,0.953986
+H5,conversion by current-campaign contact count (descriptive only),4-5,4250,369,0.08682353,0.11265417,0.770709
+H5,conversion by current-campaign contact count (descriptive only),6+,3385,186,0.05494830,0.11265417,0.487761
+H6,conversion by post-contact call duration (leakage demonstration only),181-300 seconds,9279,954,0.10281280,0.11265417,0.912641
+H6,conversion by post-contact call duration (leakage demonstration only),61-180 seconds,16419,563,0.03428954,0.11265417,0.304379
+H6,conversion by post-contact call duration (leakage demonstration only),301-600 seconds,7740,1438,0.18578811,0.11265417,1.649190
+H6,conversion by post-contact call duration (leakage demonstration only),0-60 seconds,4286,1,0.00023332,0.11265417,0.002071
+H6,conversion by post-contact call duration (leakage demonstration only),601+ seconds,3464,1684,0.48614319,0.11265417,4.315359

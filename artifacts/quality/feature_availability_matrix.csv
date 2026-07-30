@@ -1,0 +1,21 @@
+feature,description,availability_class,allowed_strict_model,allowed_pre_call_model,leakage_risk,rationale
+age,Customer age,pre-campaign,true,true,low,Customer profile known before campaign.
+job,Occupation category,pre-campaign,true,true,low,Customer profile known before campaign.
+marital,Marital status,pre-campaign,true,true,low,Customer profile known before campaign.
+education,Education category,pre-campaign,true,true,low,Customer profile known before campaign; literal unknown remains a category.
+default,Credit default indicator,pre-campaign,true,true,low,Account attribute known before campaign; literal unknown remains a category.
+housing,Housing loan indicator,pre-campaign,true,true,low,Account attribute known before campaign; literal unknown remains a category.
+loan,Personal loan indicator,pre-campaign,true,true,low,Account attribute known before campaign; literal unknown remains a category.
+contact,Contact communication type,pre-call,false,true,medium,"May be assigned during campaign planning, so unavailable at strict pre-campaign scoring."
+month,Last contact month,pre-call,false,true,medium,"Current-campaign scheduling field, not available at strict initial selection."
+day_of_week,Last contact weekday,pre-call,false,true,medium,"Current-campaign scheduling field, not available at strict initial selection."
+duration,Last contact duration in seconds,post-contact,false,false,critical,Known only after the call; prohibited leakage.
+campaign,Contacts in current campaign including this contact,during-contact/current-campaign,false,true,high,Generated as the current campaign unfolds; prohibited for initial selection.
+pdays,Days since contact in a previous campaign; 999 means never,pre-campaign,true,true,medium,Historical campaign recency is available before the current campaign; sentinel 999 is meaningful.
+previous,Contacts before current campaign,pre-campaign,true,true,medium,"Explicitly refers to earlier campaigns, not current-campaign activity."
+poutcome,Outcome of previous marketing campaign,pre-campaign,true,true,medium,Explicitly historical; nonexistent is a meaningful category.
+emp.var.rate,Quarterly employment variation rate,pre-campaign,true,true,low,Published context available by scoring time.
+cons.price.idx,Monthly consumer price index,pre-campaign,true,true,low,Published context available by scoring time.
+cons.conf.idx,Monthly consumer confidence index,pre-campaign,true,true,low,Published context available by scoring time.
+euribor3m,Daily three-month Euribor,pre-campaign,true,true,low,Published context available by scoring time.
+nr.employed,Quarterly number employed,pre-campaign,true,true,low,Published context available by scoring time.

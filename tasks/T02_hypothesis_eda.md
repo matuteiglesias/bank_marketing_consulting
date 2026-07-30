@@ -1,7 +1,7 @@
 # T02 — Hypothesis-Driven EDA
 
 **Timebox:** minutes 30–50  
-**Status:** LOCKED until T01 is CLOSED  
+**Status:** CLOSED
 **Unlocks:** T03
 
 ## Objective
