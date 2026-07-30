@@ -54,3 +54,5 @@ def test_quality_metrics_are_deterministic(tmp_path):
     assert values["target_rate"] == "0.00000000"
     assert values["customer_id"] == "false"
     assert values["pdays_sentinel"] == "1"
+    assert values["type_age"] == "numeric"
+    assert values["type_job"] == "categorical"

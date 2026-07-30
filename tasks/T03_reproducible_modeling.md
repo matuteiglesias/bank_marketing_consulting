@@ -1,7 +1,7 @@
 # T03 — Reproducible Modeling
 
 **Timebox:** minutes 50–85  
-**Status:** LOCKED until T02 is CLOSED  
+**Status:** BLOCKED — scikit-learn runtime unavailable; see `memos/T03_modeling_closure.md`
 **Unlocks:** T04
 
 ## Objective

@@ -109,6 +109,12 @@ def quality_checks(rows: list[dict[str, str]], digest: str) -> list[dict[str, st
         "Defines the analyzed population.", "None.")
     add("dimensions_columns", "dimensions", "dataset", "columns", len(EXPECTED_COLUMNS), "info",
         "Expected schema was validated.", "None.")
+    for column in EXPECTED_COLUMNS:
+        declared_type = "numeric" if column in NUMERIC_COLUMNS else "categorical"
+        add(f"type_{column}", "column_type", column, "declared_type", declared_type,
+            "info", "Provides the reproducible preprocessing type inventory.",
+            "Parse as numeric during validation." if declared_type == "numeric" else
+            "Preserve observed strings as categories.")
     positives = sum(row["y"] == "yes" for row in rows)
     add("target_positive", "target", "y", "positive_count", positives, "info",
         "Positive-class volume drives ranking evaluation.", "Use stratification only where compatible with temporal order.")

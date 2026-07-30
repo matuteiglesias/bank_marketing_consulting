@@ -1,0 +1,69 @@
+check_id,category,field,metric,value,severity,implication,action
+source_sha256,provenance,dataset,sha256,74adfc578bf77a7ff4bb1ba4a9f8709d9e3c6907342959c2c8416847e0afb4d8,info,Pins the exact audited bytes.,Verify checksum when reproducing.
+dimensions_rows,dimensions,dataset,rows,41188,info,Defines the analyzed population.,None.
+dimensions_columns,dimensions,dataset,columns,21,info,Expected schema was validated.,None.
+type_age,column_type,age,declared_type,numeric,info,Provides the reproducible preprocessing type inventory.,Parse as numeric during validation.
+type_job,column_type,job,declared_type,categorical,info,Provides the reproducible preprocessing type inventory.,Preserve observed strings as categories.
+type_marital,column_type,marital,declared_type,categorical,info,Provides the reproducible preprocessing type inventory.,Preserve observed strings as categories.
+type_education,column_type,education,declared_type,categorical,info,Provides the reproducible preprocessing type inventory.,Preserve observed strings as categories.
+type_default,column_type,default,declared_type,categorical,info,Provides the reproducible preprocessing type inventory.,Preserve observed strings as categories.
+type_housing,column_type,housing,declared_type,categorical,info,Provides the reproducible preprocessing type inventory.,Preserve observed strings as categories.
+type_loan,column_type,loan,declared_type,categorical,info,Provides the reproducible preprocessing type inventory.,Preserve observed strings as categories.
+type_contact,column_type,contact,declared_type,categorical,info,Provides the reproducible preprocessing type inventory.,Preserve observed strings as categories.
+type_month,column_type,month,declared_type,categorical,info,Provides the reproducible preprocessing type inventory.,Preserve observed strings as categories.
+type_day_of_week,column_type,day_of_week,declared_type,categorical,info,Provides the reproducible preprocessing type inventory.,Preserve observed strings as categories.
+type_duration,column_type,duration,declared_type,numeric,info,Provides the reproducible preprocessing type inventory.,Parse as numeric during validation.
+type_campaign,column_type,campaign,declared_type,numeric,info,Provides the reproducible preprocessing type inventory.,Parse as numeric during validation.
+type_pdays,column_type,pdays,declared_type,numeric,info,Provides the reproducible preprocessing type inventory.,Parse as numeric during validation.
+type_previous,column_type,previous,declared_type,numeric,info,Provides the reproducible preprocessing type inventory.,Parse as numeric during validation.
+type_poutcome,column_type,poutcome,declared_type,categorical,info,Provides the reproducible preprocessing type inventory.,Preserve observed strings as categories.
+type_emp.var.rate,column_type,emp.var.rate,declared_type,numeric,info,Provides the reproducible preprocessing type inventory.,Parse as numeric during validation.
+type_cons.price.idx,column_type,cons.price.idx,declared_type,numeric,info,Provides the reproducible preprocessing type inventory.,Parse as numeric during validation.
+type_cons.conf.idx,column_type,cons.conf.idx,declared_type,numeric,info,Provides the reproducible preprocessing type inventory.,Parse as numeric during validation.
+type_euribor3m,column_type,euribor3m,declared_type,numeric,info,Provides the reproducible preprocessing type inventory.,Parse as numeric during validation.
+type_nr.employed,column_type,nr.employed,declared_type,numeric,info,Provides the reproducible preprocessing type inventory.,Parse as numeric during validation.
+type_y,column_type,y,declared_type,categorical,info,Provides the reproducible preprocessing type inventory.,Preserve observed strings as categories.
+target_positive,target,y,positive_count,4640,info,Positive-class volume drives ranking evaluation.,Use stratification only where compatible with temporal order.
+target_rate,target,y,positive_rate,0.11265417,info,Historical conversion is the random-selection baseline.,Carry prevalence into later comparisons.
+exact_duplicates,duplicates,dataset,exact_duplicate_rows,12,medium,Exact rows may represent repeated records or valid contacts.,Retain for contact-opportunity analysis; report sensitivity if material.
+missing_age,missing,age,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_job,missing,job,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+unknown_job,unknown_category,job,literal_unknown_count,330,info,"Unknown is an observed category, not automatically a missing value.",Preserve as an explicit category.
+missing_marital,missing,marital,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+unknown_marital,unknown_category,marital,literal_unknown_count,80,info,"Unknown is an observed category, not automatically a missing value.",Preserve as an explicit category.
+missing_education,missing,education,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+unknown_education,unknown_category,education,literal_unknown_count,1731,info,"Unknown is an observed category, not automatically a missing value.",Preserve as an explicit category.
+missing_default,missing,default,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+unknown_default,unknown_category,default,literal_unknown_count,8597,info,"Unknown is an observed category, not automatically a missing value.",Preserve as an explicit category.
+missing_housing,missing,housing,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+unknown_housing,unknown_category,housing,literal_unknown_count,990,info,"Unknown is an observed category, not automatically a missing value.",Preserve as an explicit category.
+missing_loan,missing,loan,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+unknown_loan,unknown_category,loan,literal_unknown_count,990,info,"Unknown is an observed category, not automatically a missing value.",Preserve as an explicit category.
+missing_contact,missing,contact,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_month,missing,month,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_day_of_week,missing,day_of_week,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_duration,missing,duration,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_campaign,missing,campaign,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_pdays,missing,pdays,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_previous,missing,previous,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_poutcome,missing,poutcome,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_emp.var.rate,missing,emp.var.rate,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_cons.price.idx,missing,cons.price.idx,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_cons.conf.idx,missing,cons.conf.idx,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_euribor3m,missing,euribor3m,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_nr.employed,missing,nr.employed,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+missing_y,missing,y,blank_count,0,info,Blank values can break or bias preprocessing.,No action.
+range_age,numeric_range,age,min|max,17|98,info,Range supports plausibility review.,Review sentinel values separately.
+range_duration,numeric_range,duration,min|max,0|4918,info,Range supports plausibility review.,Review sentinel values separately.
+range_campaign,numeric_range,campaign,min|max,1|56,info,Range supports plausibility review.,Review sentinel values separately.
+range_pdays,numeric_range,pdays,min|max,0|999,info,Range supports plausibility review.,Review sentinel values separately.
+range_previous,numeric_range,previous,min|max,0|7,info,Range supports plausibility review.,Review sentinel values separately.
+range_emp.var.rate,numeric_range,emp.var.rate,min|max,-3.4|1.4,info,Range supports plausibility review.,Review sentinel values separately.
+range_cons.price.idx,numeric_range,cons.price.idx,min|max,92.201|94.767,info,Range supports plausibility review.,Review sentinel values separately.
+range_cons.conf.idx,numeric_range,cons.conf.idx,min|max,-50.8|-26.9,info,Range supports plausibility review.,Review sentinel values separately.
+range_euribor3m,numeric_range,euribor3m,min|max,0.634|5.045,info,Range supports plausibility review.,Review sentinel values separately.
+range_nr.employed,numeric_range,nr.employed,min|max,4963.6|5228.1,info,Range supports plausibility review.,Review sentinel values separately.
+pdays_sentinel,semantic,pdays,count_999,39673,info,999 denotes no previous contact and is not ordinary elapsed time.,Encode sentinel meaning explicitly.
+customer_id,independence,dataset,stable_customer_id_present,false,high,Customer-level train/test independence cannot be guaranteed.,Record limitation; do not claim customer-independent evaluation.
+chronology_order,temporal,month,adjacent_backward_transitions,2,medium,Rows are only approximately chronological because year/date identifiers are absent.,Preserve source row order and use an ordered holdout; document approximation.
+chronology_coverage,temporal,month,observed_months,may|jun|jul|aug|oct|nov|dec|mar|apr|sep,info,Month and weekday provide incomplete dates.,Do not reconstruct unsupported exact timestamps.

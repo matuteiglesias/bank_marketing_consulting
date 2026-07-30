@@ -1,7 +1,7 @@
 # T01 — Data Audit
 
 **Timebox:** minutes 12–30  
-**Status:** BLOCKED
+**Status:** CLOSED
 **Unlocks:** T02
 
 ## Objective
