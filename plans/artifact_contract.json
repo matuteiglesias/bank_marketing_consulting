@@ -1,0 +1,40 @@
+{
+  "required_artifacts": {
+    "T01": [
+      "artifacts/quality/data_quality_table.csv",
+      "artifacts/quality/feature_availability_matrix.csv",
+      "memos/T01_data_audit_closure.md"
+    ],
+    "T02": [
+      "artifacts/eda/eda_findings.md",
+      "artifacts/eda/eda_summary_metrics.csv",
+      "memos/T02_eda_closure.md"
+    ],
+    "T03": [
+      "artifacts/modeling/model_comparison.csv",
+      "artifacts/modeling/test_predictions.csv",
+      "artifacts/modeling/feature_manifest.json",
+      "memos/T03_modeling_closure.md"
+    ],
+    "T04": [
+      "artifacts/policy/gains_table.csv",
+      "artifacts/policy/policy_summary.md",
+      "memos/T04_policy_closure.md"
+    ],
+    "HUMAN": [
+      "memos/HUMAN_HANDOFF.md"
+    ]
+  },
+  "status_values": [
+    "NOT_STARTED",
+    "ACTIVE",
+    "PARTIAL",
+    "BLOCKED",
+    "CLOSED"
+  ],
+  "rules": {
+    "future_stage_locked_until_prior_closed": true,
+    "production_model_must_exclude_duration": true,
+    "all_policy_metrics_from_test_predictions": true
+  }
+}
