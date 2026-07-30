@@ -1,0 +1,99 @@
+{
+  "feature_set": "strict_pre_campaign",
+  "included_features": [
+    {
+      "feature": "age",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "pdays",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "previous",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "emp.var.rate",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "cons.price.idx",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "cons.conf.idx",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "euribor3m",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "nr.employed",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "job",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "marital",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "education",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "default",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "housing",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "loan",
+      "availability_class": "pre-campaign"
+    },
+    {
+      "feature": "poutcome",
+      "availability_class": "pre-campaign"
+    }
+  ],
+  "excluded_features": [
+    {
+      "feature": "contact",
+      "availability_class": "pre-call",
+      "exclusion_reason": "May be assigned during campaign planning, so unavailable at strict pre-campaign scoring."
+    },
+    {
+      "feature": "month",
+      "availability_class": "pre-call",
+      "exclusion_reason": "Current-campaign scheduling field, not available at strict initial selection."
+    },
+    {
+      "feature": "day_of_week",
+      "availability_class": "pre-call",
+      "exclusion_reason": "Current-campaign scheduling field, not available at strict initial selection."
+    },
+    {
+      "feature": "duration",
+      "availability_class": "post-contact",
+      "exclusion_reason": "Known only after the call; prohibited leakage."
+    },
+    {
+      "feature": "campaign",
+      "availability_class": "during-contact/current-campaign",
+      "exclusion_reason": "Generated as the current campaign unfolds; prohibited for initial selection."
+    }
+  ],
+  "target": "y",
+  "row_identifier": "source_row_id",
+  "split": {
+    "method": "ordered source-row holdout",
+    "test_fraction": 0.2,
+    "limitation": "Approximate chronology only; exact dates, years, and customer IDs are unavailable."
+  }
+}
